@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IPost } from "@/types";
 import Image from "next/image";
 
-export default async function BlogDetailsCard({ blog }: { blog: any }) {
+export default async function BlogDetailsCard({ blog }: { blog: IPost}) {
+
+
+
   if (!blog) {
     return (
       <div className="py-20 text-center text-gray-500">Blog not found.</div>
@@ -31,7 +35,7 @@ export default async function BlogDetailsCard({ blog }: { blog: any }) {
             )}
           </p>
           <p className="text-gray-500 text-sm">
-            {new Date(blog.createdAt).toLocaleDateString()} • {blog.views} views
+            {new Date(blog.createdAt).toLocaleDateString()} • {blog.view} views
           </p>
         </div>
       </div>

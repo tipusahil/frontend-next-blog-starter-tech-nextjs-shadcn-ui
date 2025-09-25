@@ -29,7 +29,7 @@ export default function ErrorPage({
         )}
 
         <div className="mt-4">
-          <Button variant="default" onClick={() => reset()}>
+          <Button variant="default" onClick={() => reset()} className="cursor-pointer">
             Try again
           </Button>
         </div>

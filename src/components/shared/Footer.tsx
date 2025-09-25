@@ -46,7 +46,7 @@ export default function Footer() {
 
           {/* Right */}
           <div className="text-sm text-gray-400">
-            © {currentYear} next level team. All rights reserved.
+            <a href="https://github.com/tipusahil">© {currentYear} <span className="text-blue-400 hover:underline">Tipusahil</span> .All rights reserved.</a>
           </div>
         </div>
       </div>
