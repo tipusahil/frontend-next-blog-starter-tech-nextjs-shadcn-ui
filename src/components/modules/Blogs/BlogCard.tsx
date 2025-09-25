@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import Image from "next/image";
+import { IPost } from "@/types";
 
-export default function BlogCard({ post }: { post: any }) {
+export default function BlogCard({ post }: { post: IPost }) {
   return (
     <Link
       href={`/blogs/${post.id}`}
@@ -37,7 +38,7 @@ export default function BlogCard({ post }: { post: any }) {
             <div className="flex items-center gap-2">
               <Image
                 src={
-                  post.author.picture ||
+                  post.author?.picture ||
                   "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
                 }
                 alt={post.author.name}
@@ -66,7 +67,7 @@ export default function BlogCard({ post }: { post: any }) {
               </span>
             </div>
             <span className="text-gray-500 dark:text-gray-400 text-sm">
-              {post.views} views
+              {post.view} views
             </span>
           </div>
 
