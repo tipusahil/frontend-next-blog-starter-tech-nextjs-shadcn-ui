@@ -1,4 +1,5 @@
 "use server";
+import { getUserSession } from "@/helpers/getUserSession";
 import fs from "fs";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
@@ -6,7 +7,9 @@ import path from "path";
 
 //kuno function k server action function e convert korte hole evabe ekdm upore ei line ta dite hbe
 
-export const createBlogOrUser = async (data: FormData) => {
+export const createBlog = async (data: FormData) => {
+
+  const session = await getUserSession();
   // server action func ta async func hote hobe.
   // console.log({...data, authorId:7});// wrong way -> right way-nise
   const blogInfo = Object.fromEntries(data.entries());
@@ -34,7 +37,7 @@ export const createBlogOrUser = async (data: FormData) => {
 
   const modifiedData = {
     ...blogInfo,
-    authorId: 9,
+    authorId: session?.user.id,
     thumbnail: imageUrl,
     isFeatured: Boolean(blogInfo.isFeatured),
     tags: blogInfo.tags
