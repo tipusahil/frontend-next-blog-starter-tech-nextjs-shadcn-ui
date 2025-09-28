@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { UserRegisterServerActionFunc } from "@/actions/auth";
+import TPassword from "@/components/TPassword";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -13,10 +11,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { register } from "@/actions/auth";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import TPassword from "@/components/TPassword";
+import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // type RegisterFormValues = {
 //   name: string;
@@ -34,25 +33,36 @@ export default function RegisterForm() {
       password: "",
     },
   });
-  const router = useRouter();
+const router = useRouter();
   const onSubmit = async (values: FieldValues) => {
-    try {
-      const res = await register(values);
-      if (res?.id) {
-        toast.success("User Registered Successfully");
-        router.push("/login");
-      }
-    } catch (err) {
-      console.error(err);
-    }
+try {
+  const response = await UserRegisterServerActionFunc(values);
+  console.log("response from form : ", response);
+
+   if(!response.success){
+    console.log(response?.message)
+    toast.error(response?.message ||"something went wrong!" ,{duration: 4000});
+  }
+  if(response.success === true){
+    console.log(response?.message)
+ 
+    toast.success(response?.message ||"User Register successfully" ,{duration: 5000});
+    router.push("/login")
+   
+  }
+} catch (error:any) {
+      toast.error("User Register Failed!");
+  // console.log(error.message || error || "something went wrong!") 
+  console.log(error || "something went wrong!") 
+}
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 ">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md"
+          className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md  md:mt-16"
         >
           <h2 className="text-3xl font-bold text-center">Register Now</h2>
           {/* Name */}

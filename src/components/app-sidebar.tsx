@@ -47,7 +47,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
-          <SidebarGroupContent className="flex flex-col justify-between h-screen">
+          <SidebarGroupContent className="flex flex-col  min-h-screen justify-between py-4">
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>

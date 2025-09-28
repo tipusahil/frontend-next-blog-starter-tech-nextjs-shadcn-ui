@@ -1,10 +1,7 @@
 "use client";
 
-import React from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import TPassword from "@/components/TPassword";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -13,11 +10,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-import { login } from "@/actions/auth";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import TPassword from "@/components/TPassword";
 
 // type LoginFormValues = {
 //   email: string;
@@ -25,6 +24,7 @@ import TPassword from "@/components/TPassword";
 // };
 
 export default function LoginForm() {
+
   const form = useForm<FieldValues>({
     defaultValues: {
       email: "",
@@ -32,20 +32,38 @@ export default function LoginForm() {
     },
   });
 
+  const router = useRouter();
   const onSubmit = async (values: FieldValues) => {
     try {
-      // const res = await login(values);
-      // if (res?.id) {
-      //   toast.success("User Logged in Successfully");
-      // } else {
-      //   toast.error("User Login Failed");
+  
+      // const response = await UserLoginServerActionFunc(values);
+      // console.log("response from login : ", response);
+
+      // if (!response.success) {
+      //   console.log(response?.message);
+      //   toast.error(response?.message || "something went wrong!", {
+      //     duration: 4000,
+      //   });
       // }
-      signIn("credentials", {
-        ...values,
-        callbackUrl: "/dashboard",
-      });
+      // if (response.success === true) {
+      //   console.log(response?.message);
+
+      //   toast.success(response?.message || "User Logged successfully", {
+      //     duration: 5000,
+      //   });
+      //   router.push("/dashboard");
+      // }
+
+
+// option-2: signIn call kore ---
+    signIn("credentials", {
+      ...values,
+      callbackUrl : "/dashboard"
+    });
     } catch (err) {
-      console.error(err);
+      toast.error("User Login Failed!");
+      // console.log(error.message || error || "something went wrong!")
+      console.log(err || "something went wrong!");
     }
   };
 
@@ -53,13 +71,14 @@ export default function LoginForm() {
     console.log(`Login with ${provider}`);
   };
 
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <div className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 ">
+      <div className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md md:mt-16">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 w-full max-w-md"
+            className="space-y-6 w-full max-w-md "
           >
             <h2 className="text-3xl font-bold text-center">Login</h2>
 
@@ -90,7 +109,7 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <TPassword field={field}/>
+                    <TPassword field={field} />
                     {/* <Input
                       type="password"
                       placeholder="Enter your password"
@@ -102,7 +121,7 @@ export default function LoginForm() {
               )}
             />
 
-            <Button type="submit" className="w-full mt-2">
+            <Button type="submit" className="w-full mt-2 cursor-pointer">
               Login
             </Button>
 

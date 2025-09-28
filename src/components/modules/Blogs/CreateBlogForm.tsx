@@ -1,5 +1,5 @@
 "use client"; // kuno function k server function kore hole ei line use korte hbe.ar eta server  action function
-import { createBlogOrUser } from "@/actions/create";
+import { createBlog } from "@/actions/create";
 import SingleImageUploader from "@/components/SingleImageUploader";
 import Form from "next/form"; // nije theke import korte hoi saggesstion asena eta
 
@@ -18,7 +18,7 @@ export default function CreateBlogForm() {
   return (
     <Form
       // action="/blogs"// from submit kore kon route e niye jabe seta action e bole dite hbe.
-      action={createBlogOrUser}
+      action={createBlog}
       formEncType="multipart/form-data"// new added this line
       className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-2 w-full"
     >
