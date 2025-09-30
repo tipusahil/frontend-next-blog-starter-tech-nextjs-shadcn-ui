@@ -22,11 +22,14 @@ export const UserRegisterServerActionFunc = async (data: FieldValues) => {
       };
     }
 
-    console.log("User Registration success:", response);
+    // console.log("User Registration success:", response);
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("User Registration failed! Unexpected error:", error);
-    return { success: false, message: error.message || "Unexpected error" };
+    const errorMessage = typeof error === "object" && error !== null && "message" in error
+      ? (error as { message?: string }).message
+      : undefined;
+    return { success: false, message: errorMessage || "Unexpected error" };
   }
 };
 
@@ -49,10 +52,13 @@ export const UserLoginServerActionFunc = async (data: FieldValues) => {
       return { success: false, message: response.message || "Login failed" };
     }
 
-    console.log("User Login success :", response);
+    // console.log("User Login success :", response);
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("User Login failed! Unexpected error:", error);
-    return { success: false, message: error.message || "Unexpected error" };
+      const errorMessage = typeof error === "object" && error !== null && "message" in error
+      ? (error as { message?: string }).message
+      : undefined;
+    return { success: false, message: errorMessage || "Unexpected error" };
   }
 };

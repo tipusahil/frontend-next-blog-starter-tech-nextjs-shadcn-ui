@@ -1,7 +1,6 @@
 import BlogDetailsCard from "@/components/modules/Blogs/BlogDetailsCard";
 import { getBlogById } from "@/services/PostServices";
 import { IPost } from "@/types";
-import { Metadata, ResolvingMetadata } from "next";
 
 // ---------start-generateMetadata ------
 
@@ -11,13 +10,13 @@ export const generateMetadata = async ({
   params: Promise<{ blog_id: string }>;
 }) => {
   const { blog_id } = await params;
-const blog = await getBlogById(blog_id)
-console.log(blog)
+  const blog = await getBlogById(blog_id);
+  console.log(blog);
 
   return {
-    title : blog?.title,
-    description : blog?.content,
-  }
+  title: blog?.title || "Blog Not Found",
+  description: blog?.content || "No description available",
+  };
 };
 // ---------end-generateMetadata ------
 
@@ -52,34 +51,54 @@ console.log(blog)
 
 export const generateStaticParams = async () => {
   // 1) API call → সব post ডাটা আনছে
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post`);
-  const { data: blogs } = await res.json();
 
-  // 2) শুধু প্রথম ৩টা post প্রি-জেনারেট করব
-  return blogs?.data?.slice(0, 3).map((blog: IPost) => ({
-    blog_id: String(blog.id), // route param সবসময় string হতে হবে
-    // blog_id: blog.id, // ❌ এভাবে রাখলে number হলে problem হবে
-  }));
+  // // if (process.env.NODE_ENV === "production") {...};
+  //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post`);
+  //   const { data: blogs } = await res.json();
 
-  // 3) শুধু টেস্ট করার জন্য চাইলে একটিই fix route return করা যায়:
-  // return [{ blog_id: "1" }];
+  //   // 2) শুধু প্রথম ৩টা post প্রি-জেনারেট করব
+  //   return blogs?.data?.slice(0, 3).map((blog: IPost) => ({
+  //     blog_id: String(blog.id), // route param সবসময় string হতে হবে
+  //     // blog_id: blog.id, // ❌ এভাবে রাখলে number হলে problem হবে
+  //   }));
+  
+  // // 3) শুধু টেস্ট করার জন্য চাইলে একটিই fix route return করা যায়:
+  // // return [{ blog_id: "1" }];
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post`, {
+      cache: "no-store", // ফ্রেশ ডাটা ফেচ করার জন্য
+    });
+    if (!res.ok) {
+      throw new Error(`API call failed: ${res.status}`);
+    }
+    const { data: blogs } = await res.json();
+    return blogs?.data?.slice(0, 3).map((blog: IPost) => ({
+      blog_id: String(blog.id),
+    })) || [];
+  } catch (error) {
+    console.error("Error in generateStaticParams:", error);
+    return [];
+  }
 };
 // --------------------------------------------------------------------
 
-
-const BlogDetailsPage = async ({ params }: { params: { blog_id: string } }) => {
+const BlogDetailsPage = async ({ params }:  { params: Promise<{ blog_id: string }> }) => {
   // const BlogDetailsPage = async ({ params }: { params: Promise<{ blog_id: string }> }) =>{
   /* 
 /* uporer type ta kaj na korle niser ta use korte hobe ,ar niser params descruct korr smy await dite hbe evabe ( const { blog_id } = await params;), but chatgpt bolse uporer type tai right params kokonu promise hoina naki
 { params: Promise<{ blog_id: string }> }
 */
 
-  const { blog_id } = params;
-  //   const { blog_id } = await params;
+  // const { blog_id } = params;
+    const { blog_id } = await params;
   //   console.log( params);
 
- 
   const blog = await getBlogById(blog_id);
+
+  if (!blog) {
+  return <div>Blog not found</div>;
+}
+
   return (
     <div className="py-10 max-w-7xl mx-auto">
       {/* <h2 className="text-4xl">BlogDetails Page id {blog_id}</h2> */}

@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -32,7 +31,7 @@ export default function LoginForm() {
     },
   });
 
-  const router = useRouter();
+  // const router = useRouter();
   const onSubmit = async (values: FieldValues) => {
     try {
   

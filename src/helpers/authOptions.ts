@@ -65,7 +65,7 @@ try {
       }
     );
 
-    console.log("response from backend: ", res);
+    // console.log("response from backend: ", res);
 
     
     const response = await res.json();
@@ -104,8 +104,11 @@ try {
     };
 
 
-} catch (err:any ) {
-  console.log(err);
+} catch (error: unknown ) {
+  console.log(error);
+    // const errorMessage = typeof error === "object" && error !== null && "message" in error
+    //   ? (error as { message?: string }).message
+    //   : undefined;
   return null;
 }
       },

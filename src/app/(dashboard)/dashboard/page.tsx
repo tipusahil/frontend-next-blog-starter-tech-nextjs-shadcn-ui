@@ -12,7 +12,7 @@ const DashboardHomePage = async () => {
       <h1 className="text-4xl font-bold"> Hi, {session?.user?.name} Welcome Next-Blog App</h1>
       <h1 className="text-4xl font-bold"> here is your email address : {session?.user?.email} </h1>
       {/* <Image src={session?.user?.name || "logo.png"} alt="s" width={500} height={500} /> */}
-      <img src={session?.user?.name || "logo.png"} alt="x" />
+      {/* <img src={session?.user?.name || "logo.png"} alt="x" /> */}
     </div>
   );
 };

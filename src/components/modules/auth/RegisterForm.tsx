@@ -50,10 +50,13 @@ try {
     router.push("/login")
    
   }
-} catch (error:any) {
+} catch (error:unknown ) {
       toast.error("User Register Failed!");
+        const errorMessage = typeof error === "object" && error !== null && "message" in error
+      ? (error as { message?: string }).message
+      : undefined;
   // console.log(error.message || error || "something went wrong!") 
-  console.log(error || "something went wrong!") 
+  console.log(error  || errorMessage || "something went wrong!") 
 }
   };
 

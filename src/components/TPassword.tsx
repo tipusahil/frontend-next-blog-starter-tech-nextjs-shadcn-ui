@@ -1,16 +1,17 @@
 "use client";
 
-import { useId, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useId, useState } from "react";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 
-type TPasswordProps = {
-  field: any; // react-hook-form থেকে আসা field
+type TPasswordProps<T extends FieldValues> = {
+  field: ControllerRenderProps<T, Path<T>>;
 };
 
-export default function TPassword({ field }: TPasswordProps) {
+export default function TPassword<T extends FieldValues>({ field }: TPasswordProps<T>) {
+// export default function TPassword({ field }: TPasswordProps) {
   const id = useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 

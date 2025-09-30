@@ -1,7 +1,7 @@
 "use server";
 import { getUserSession } from "@/helpers/getUserSession";
 import fs from "fs";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "path";
 

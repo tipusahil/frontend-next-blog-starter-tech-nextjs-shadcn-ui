@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { IPost } from "@/types";
 import Image from "next/image";
 

@@ -4,6 +4,7 @@ import { AlertCircleIcon, ImageUpIcon, XIcon } from "lucide-react";
 
 import { FileMetadata, useFileUpload } from "@/hooks/use-file-upload";
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface SingleImageUploaderProps {
   onChange: (file: (File | FileMetadata) | null) => void;
@@ -70,13 +71,22 @@ export default function SingleImageUploader({
             aria-label="Upload file"
           />
           {previewUrl ? (
-            <div className="absolute inset-0">
-              <img
-                src={previewUrl}
-                alt={files[0]?.file?.name || "Uploaded image"}
-                className="size-full object-cover"
-              />
-            </div>
+            // <div className="absolute inset-0">
+            //   <img
+            //     src={previewUrl}
+            //     alt={files[0]?.file?.name || "Uploaded image"}
+            //     className="size-full object-cover"
+            //   />
+            // </div>
+              <div className="absolute inset-0">
+    <Image
+      src={previewUrl}
+      alt={files[0]?.file?.name || "Uploaded image"}
+      fill  // parent div এর পুরোটা cover করবে
+      className="object-cover"
+        unoptimized
+    />
+  </div>
           ) : (
             <div className="flex flex-col items-center justify-center px-4 py-3 text-center">
               <div
